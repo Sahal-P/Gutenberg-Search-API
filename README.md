@@ -32,6 +32,8 @@ DATABASE_PORT=
 ```
 **3. Start Server**
 ```sh
+pip install -r .\config\requirements.txt
+
 python manage.py runserver
 ```
 **3. Or using docker-compose**
