@@ -1,0 +1,542 @@
+{
+	"info": {
+		"_postman_id": "9f3f8f1a-2593-469e-b041-34dd9b04deba",
+		"name": "API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25311396",
+		"_collection_link": "https://lively-shadow-457951.postman.co/workspace/EC-Infosolution-Task~44a22234-1c50-4c74-8243-75cf92b43b10/collection/25311396-9f3f8f1a-2593-469e-b041-34dd9b04deba?action=share&source=collection_link&creator=25311396"
+	},
+	"item": [
+		{
+			"name": "Gutentberg Books Filter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has the required fields\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData).to.have.property('count');",
+							"    pm.expect(responseData).to.have.property('next');",
+							"    pm.expect(responseData).to.have.property('previous');",
+							"    pm.expect(responseData).to.have.property('results');",
+							"    pm.expect(pm.response.json()).to.have.property(\"results\").that.is.an(\"array\").with.lengthOf.above(0)",
+							"});",
+							"",
+							"",
+							"pm.test(\"Each book has the correct details\", function () {",
+							"    var books = pm.response.json().results;",
+							"    books.forEach(function (book) {",
+							"        pm.expect(book).to.have.property(\"id\").that.is.a(\"number\");",
+							"        pm.expect(book).to.have.property(\"title\").that.is.a(\"string\");",
+							"        pm.expect(book).to.have.property(\"download_count\").that.is.a(\"number\");",
+							"        pm.expect(book).to.have.property(\"media_type\").that.is.a(\"string\");",
+							"        pm.expect(book).to.have.property(\"authors\").that.is.an(\"array\")",
+							"        pm.expect(book).to.have.property(\"bookshelves\").that.is.an(\"array\")",
+							"        pm.expect(book).to.have.property(\"languages\").that.is.an(\"array\")",
+							"        pm.expect(book).to.have.property(\"subjects\").that.is.an(\"array\")",
+							"        pm.expect(book).to.have.property(\"formats\").that.is.an(\"array\")",
+							"    });",
+							"});",
+							"",
+							"pm.test(\"Each format have url\", function () {",
+							"    var books = pm.response.json().results;",
+							"    books.forEach(function (book) {",
+							"        book.formats.forEach(function (format) {",
+							"            pm.expect(format).to.have.property(\"url\").that.is.a(\"string\")",
+							"        });",
+							"    });",
+							"});",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/books/?page=1&title=pride and prejudice&author=Austen, Jane",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"books",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "title",
+							"value": "pride and prejudice"
+						},
+						{
+							"key": "gutenberg_id",
+							"value": "1342",
+							"disabled": true
+						},
+						{
+							"key": "languages",
+							"value": "fa,af",
+							"disabled": true
+						},
+						{
+							"key": "topic",
+							"value": "fiction, Harvard",
+							"disabled": true
+						},
+						{
+							"key": "author",
+							"value": "Austen, Jane"
+						},
+						{
+							"key": "mime_type",
+							"value": "text/html; charset=utf-8",
+							"disabled": true
+						}
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": [
+				{
+					"name": "Filter by topic",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/books/?page=1&topic=fiction, Harvard&mime_type=text/html; charset=utf-8",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"books",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "title",
+									"value": "pride and prejudice",
+									"disabled": true
+								},
+								{
+									"key": "gutenberg_id",
+									"value": "1342",
+									"disabled": true
+								},
+								{
+									"key": "languages",
+									"value": "fa,af",
+									"disabled": true
+								},
+								{
+									"key": "topic",
+									"value": "fiction, Harvard"
+								},
+								{
+									"key": "author",
+									"value": "Austen, Jane",
+									"disabled": true
+								},
+								{
+									"key": "mime_type",
+									"value": "text/html; charset=utf-8"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 19 Mar 2024 01:52:35 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.11.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept, Cookie"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "6443"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"count\": 47953,\n    \"next\": \"http://127.0.0.1:8000/api/books/?mime_type=text%2Fhtml%3B+charset%3Dutf-8&page=2&topic=fiction%2C+Harvard\",\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": 1342,\n            \"title\": \"Pride and Prejudice\",\n            \"download_count\": 44776,\n            \"media_type\": \"Text\",\n            \"authors\": [\n                {\n                    \"name\": \"Austen, Jane\",\n                    \"birth_year\": 1775,\n                    \"death_year\": 1817\n                }\n            ],\n            \"bookshelves\": [\n                {\n                    \"name\": \"Best Books Ever Listings\"\n                },\n                {\n                    \"name\": \"Harvard Classics\"\n                }\n            ],\n            \"languages\": [\n                {\n                    \"code\": \"en\"\n                }\n            ],\n            \"subjects\": [\n                {\n                    \"name\": \"Domestic fiction\"\n                },\n                {\n                    \"name\": \"Love stories\"\n                },\n                {\n                    \"name\": \"Young women -- Fiction\"\n                },\n                {\n                    \"name\": \"England -- Fiction\"\n                },\n                {\n                    \"name\": \"Sisters -- Fiction\"\n                },\n                {\n                    \"name\": \"Social classes -- Fiction\"\n                },\n                {\n                    \"name\": \"Courtship -- Fiction\"\n                }\n            ],\n            \"formats\": [\n                {\n                    \"mime_type\": \"text/html; charset=utf-8\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-h.zip\"\n                },\n                {\n                    \"mime_type\": \"application/epub+zip\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.epub.images\"\n                },\n                {\n                    \"mime_type\": \"application/zip\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-0.zip\"\n                },\n                {\n                    \"mime_type\": \"application/rdf+xml\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.rdf\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=utf-8\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-0.txt\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=us-ascii\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342.zip\"\n                },\n                {\n                    \"mime_type\": \"application/pdf\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-pdf.zip\"\n                },\n                {\n                    \"mime_type\": \"application/x-mobipocket-ebook\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.kindle.images\"\n                }\n            ]\n        },\n        {\n            \"id\": 1342,\n            \"title\": \"Pride and Prejudice\",\n            \"download_count\": 44776,\n            \"media_type\": \"Text\",\n            \"authors\": [\n                {\n                    \"name\": \"Austen, Jane\",\n                    \"birth_year\": 1775,\n                    \"death_year\": 1817\n                }\n            ],\n            \"bookshelves\": [\n                {\n                    \"name\": \"Best Books Ever Listings\"\n                },\n                {\n                    \"name\": \"Harvard Classics\"\n                }\n            ],\n            \"languages\": [\n                {\n                    \"code\": \"en\"\n                }\n            ],\n            \"subjects\": [\n                {\n                    \"name\": \"Domestic fiction\"\n                },\n                {\n                    \"name\": \"Love stories\"\n                },\n                {\n                    \"name\": \"Young women -- Fiction\"\n                },\n                {\n                    \"name\": \"England -- Fiction\"\n                },\n                {\n                    \"name\": \"Sisters -- Fiction\"\n                },\n                {\n                    \"name\": \"Social classes -- Fiction\"\n                },\n                {\n                    \"name\": \"Courtship -- Fiction\"\n                }\n            ],\n            \"formats\": [\n                {\n                    \"mime_type\": \"text/html; charset=utf-8\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-h.zip\"\n                },\n                {\n                    \"mime_type\": \"application/epub+zip\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.epub.images\"\n                },\n                {\n                    \"mime_type\": \"application/zip\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-0.zip\"\n                },\n                {\n                    \"mime_type\": \"application/rdf+xml\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.rdf\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=utf-8\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-0.txt\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=us-ascii\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342.zip\"\n                },\n                {\n                    \"mime_type\": \"application/pdf\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-pdf.zip\"\n                },\n                {\n                    \"mime_type\": \"application/x-mobipocket-ebook\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.kindle.images\"\n                }\n            ]\n        },\n        {\n            \"id\": 1342,\n            \"title\": \"Pride and Prejudice\",\n            \"download_count\": 44776,\n            \"media_type\": \"Text\",\n            \"authors\": [\n                {\n                    \"name\": \"Austen, Jane\",\n                    \"birth_year\": 1775,\n                    \"death_year\": 1817\n                }\n            ],\n            \"bookshelves\": [\n                {\n                    \"name\": \"Best Books Ever Listings\"\n                },\n                {\n                    \"name\": \"Harvard Classics\"\n                }\n            ],\n            \"languages\": [\n                {\n                    \"code\": \"en\"\n                }\n            ],\n            \"subjects\": [\n                {\n                    \"name\": \"Domestic fiction\"\n                },\n                {\n                    \"name\": \"Love stories\"\n                },\n                {\n                    \"name\": \"Young women -- Fiction\"\n                },\n                {\n                    \"name\": \"England -- Fiction\"\n                },\n                {\n                    \"name\": \"Sisters -- Fiction\"\n                },\n                {\n                    \"name\": \"Social classes -- Fiction\"\n                },\n                {\n                    \"name\": \"Courtship -- Fiction\"\n                }\n            ],\n            \"formats\": [\n                {\n                    \"mime_type\": \"text/html; charset=utf-8\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-h.zip\"\n                },\n                {\n                    \"mime_type\": \"application/epub+zip\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.epub.images\"\n                },\n                {\n                    \"mime_type\": \"application/zip\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-0.zip\"\n                },\n                {\n                    \"mime_type\": \"application/rdf+xml\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.rdf\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=utf-8\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-0.txt\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=us-ascii\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342.zip\"\n                },\n                {\n                    \"mime_type\": \"application/pdf\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-pdf.zip\"\n                },\n                {\n                    \"mime_type\": \"application/x-mobipocket-ebook\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.kindle.images\"\n                }\n            ]\n        },\n        {\n            \"id\": 1342,\n            \"title\": \"Pride and Prejudice\",\n            \"download_count\": 44776,\n            \"media_type\": \"Text\",\n            \"authors\": [\n                {\n                    \"name\": \"Austen, Jane\",\n                    \"birth_year\": 1775,\n                    \"death_year\": 1817\n                }\n            ],\n            \"bookshelves\": [\n                {\n                    \"name\": \"Best Books Ever Listings\"\n                },\n                {\n                    \"name\": \"Harvard Classics\"\n                }\n            ],\n            \"languages\": [\n                {\n                    \"code\": \"en\"\n                }\n            ],\n            \"subjects\": [\n                {\n                    \"name\": \"Domestic fiction\"\n                },\n                {\n                    \"name\": \"Love stories\"\n                },\n                {\n                    \"name\": \"Young women -- Fiction\"\n                },\n                {\n                    \"name\": \"England -- Fiction\"\n                },\n                {\n                    \"name\": \"Sisters -- Fiction\"\n                },\n                {\n                    \"name\": \"Social classes -- Fiction\"\n                },\n                {\n                    \"name\": \"Courtship -- Fiction\"\n                }\n            ],\n            \"formats\": [\n                {\n                    \"mime_type\": \"text/html; charset=utf-8\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-h.zip\"\n                },\n                {\n                    \"mime_type\": \"application/epub+zip\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.epub.images\"\n                },\n                {\n                    \"mime_type\": \"application/zip\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-0.zip\"\n                },\n                {\n                    \"mime_type\": \"application/rdf+xml\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.rdf\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=utf-8\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-0.txt\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=us-ascii\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342.zip\"\n                },\n                {\n                    \"mime_type\": \"application/pdf\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-pdf.zip\"\n                },\n                {\n                    \"mime_type\": \"application/x-mobipocket-ebook\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.kindle.images\"\n                }\n            ]\n        },\n        {\n            \"id\": 1342,\n            \"title\": \"Pride and Prejudice\",\n            \"download_count\": 44776,\n            \"media_type\": \"Text\",\n            \"authors\": [\n                {\n                    \"name\": \"Austen, Jane\",\n                    \"birth_year\": 1775,\n                    \"death_year\": 1817\n                }\n            ],\n            \"bookshelves\": [\n                {\n                    \"name\": \"Best Books Ever Listings\"\n                },\n                {\n                    \"name\": \"Harvard Classics\"\n                }\n            ],\n            \"languages\": [\n                {\n                    \"code\": \"en\"\n                }\n            ],\n            \"subjects\": [\n                {\n                    \"name\": \"Domestic fiction\"\n                },\n                {\n                    \"name\": \"Love stories\"\n                },\n                {\n                    \"name\": \"Young women -- Fiction\"\n                },\n                {\n                    \"name\": \"England -- Fiction\"\n                },\n                {\n                    \"name\": \"Sisters -- Fiction\"\n                },\n                {\n                    \"name\": \"Social classes -- Fiction\"\n                },\n                {\n                    \"name\": \"Courtship -- Fiction\"\n                }\n            ],\n            \"formats\": [\n                {\n                    \"mime_type\": \"text/html; charset=utf-8\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-h.zip\"\n                },\n                {\n                    \"mime_type\": \"application/epub+zip\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.epub.images\"\n                },\n                {\n                    \"mime_type\": \"application/zip\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-0.zip\"\n                },\n                {\n                    \"mime_type\": \"application/rdf+xml\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.rdf\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=utf-8\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-0.txt\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=us-ascii\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342.zip\"\n                },\n                {\n                    \"mime_type\": \"application/pdf\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-pdf.zip\"\n                },\n                {\n                    \"mime_type\": \"application/x-mobipocket-ebook\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.kindle.images\"\n                }\n            ]\n        }\n    ]\n}"
+				},
+				{
+					"name": "Filter by id",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/books/?page=1&gutenberg_id=1342&mime_type=text/html; charset=utf-8",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"books",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "title",
+									"value": "pride and prejudice",
+									"disabled": true
+								},
+								{
+									"key": "gutenberg_id",
+									"value": "1342"
+								},
+								{
+									"key": "languages",
+									"value": "fa,af",
+									"disabled": true
+								},
+								{
+									"key": "topic",
+									"value": "fiction, Harvard",
+									"disabled": true
+								},
+								{
+									"key": "author",
+									"value": "Austen, Jane",
+									"disabled": true
+								},
+								{
+									"key": "mime_type",
+									"value": "text/html; charset=utf-8"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 19 Mar 2024 01:53:02 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.11.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept, Cookie"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1308"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": 1342,\n            \"title\": \"Pride and Prejudice\",\n            \"download_count\": 44776,\n            \"media_type\": \"Text\",\n            \"authors\": [\n                {\n                    \"name\": \"Austen, Jane\",\n                    \"birth_year\": 1775,\n                    \"death_year\": 1817\n                }\n            ],\n            \"bookshelves\": [\n                {\n                    \"name\": \"Best Books Ever Listings\"\n                },\n                {\n                    \"name\": \"Harvard Classics\"\n                }\n            ],\n            \"languages\": [\n                {\n                    \"code\": \"en\"\n                }\n            ],\n            \"subjects\": [\n                {\n                    \"name\": \"Domestic fiction\"\n                },\n                {\n                    \"name\": \"Love stories\"\n                },\n                {\n                    \"name\": \"Young women -- Fiction\"\n                },\n                {\n                    \"name\": \"England -- Fiction\"\n                },\n                {\n                    \"name\": \"Sisters -- Fiction\"\n                },\n                {\n                    \"name\": \"Social classes -- Fiction\"\n                },\n                {\n                    \"name\": \"Courtship -- Fiction\"\n                }\n            ],\n            \"formats\": [\n                {\n                    \"mime_type\": \"text/html; charset=utf-8\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-h.zip\"\n                },\n                {\n                    \"mime_type\": \"application/epub+zip\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.epub.images\"\n                },\n                {\n                    \"mime_type\": \"application/zip\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-0.zip\"\n                },\n                {\n                    \"mime_type\": \"application/rdf+xml\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.rdf\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=utf-8\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-0.txt\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=us-ascii\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342.zip\"\n                },\n                {\n                    \"mime_type\": \"application/pdf\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-pdf.zip\"\n                },\n                {\n                    \"mime_type\": \"application/x-mobipocket-ebook\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.kindle.images\"\n                }\n            ]\n        }\n    ]\n}"
+				},
+				{
+					"name": "Filter by languages",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/books/?page=1&languages=fa,af",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"books",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "title",
+									"value": "pride and prejudice",
+									"disabled": true
+								},
+								{
+									"key": "gutenberg_id",
+									"value": "1342",
+									"disabled": true
+								},
+								{
+									"key": "languages",
+									"value": "fa,af"
+								},
+								{
+									"key": "topic",
+									"value": "fiction, Harvard",
+									"disabled": true
+								},
+								{
+									"key": "author",
+									"value": "Austen, Jane",
+									"disabled": true
+								},
+								{
+									"key": "mime_type",
+									"value": "text/html; charset=utf-8",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 19 Mar 2024 01:53:21 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.11.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept, Cookie"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "5378"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"count\": 5,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": 46740,\n            \"title\": \"Five Selected Short Stories\",\n            \"download_count\": 132,\n            \"media_type\": \"Text\",\n            \"authors\": [\n                {\n                    \"name\": \"Lawrence, D. H. (David Herbert)\",\n                    \"birth_year\": 1885,\n                    \"death_year\": 1930\n                }\n            ],\n            \"bookshelves\": [],\n            \"languages\": [\n                {\n                    \"code\": \"fa\"\n                }\n            ],\n            \"subjects\": [\n                {\n                    \"name\": \"Short stories\"\n                },\n                {\n                    \"name\": \"England -- Social life and customs -- 20th century -- Fiction\"\n                }\n            ],\n            \"formats\": [\n                {\n                    \"mime_type\": \"application/rdf+xml\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/46740.rdf\"\n                },\n                {\n                    \"mime_type\": \"application/x-mobipocket-ebook\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/46740.kindle.noimages\"\n                },\n                {\n                    \"mime_type\": \"application/epub+zip\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/46740.epub.noimages\"\n                },\n                {\n                    \"mime_type\": \"application/zip\",\n                    \"url\": \"http://www.gutenberg.org/files/46740/46740-0.zip\"\n                },\n                {\n                    \"mime_type\": \"text/html; charset=utf-8\",\n                    \"url\": \"http://www.gutenberg.org/files/46740/46740-h/46740-h.htm\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=utf-8\",\n                    \"url\": \"http://www.gutenberg.org/files/46740/46740-0.txt\"\n                }\n            ]\n        },\n        {\n            \"id\": 42302,\n            \"title\": \"Digters uit Suid-Afrika: Bloemlesing uit die poësie van die Twede Afrikaanse-Taalbeweging\",\n            \"download_count\": 55,\n            \"media_type\": \"Text\",\n            \"authors\": [\n                {\n                    \"name\": \"Totius\",\n                    \"birth_year\": 1877,\n                    \"death_year\": 1953\n                },\n                {\n                    \"name\": \"Leipoldt, C. Louis (Christiaan Louis)\",\n                    \"birth_year\": 1880,\n                    \"death_year\": 1947\n                },\n                {\n                    \"name\": \"Malherbe, Daniel François\",\n                    \"birth_year\": 1881,\n                    \"death_year\": 1969\n                },\n                {\n                    \"name\": \"Celliers, Jan François Elias\",\n                    \"birth_year\": 1865,\n                    \"death_year\": 1940\n                }\n            ],\n            \"bookshelves\": [],\n            \"languages\": [\n                {\n                    \"code\": \"af\"\n                }\n            ],\n            \"subjects\": [\n                {\n                    \"name\": \"Afrikaans poetry\"\n                }\n            ],\n            \"formats\": [\n                {\n                    \"mime_type\": \"application/rdf+xml\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/42302.rdf\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=iso-8859-1\",\n                    \"url\": \"http://www.gutenberg.org/files/42302/42302-8.txt\"\n                },\n                {\n                    \"mime_type\": \"application/epub+zip\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/42302.epub.noimages\"\n                },\n                {\n                    \"mime_type\": \"application/zip\",\n                    \"url\": \"http://www.gutenberg.org/files/42302/42302-h.zip\"\n                },\n                {\n                    \"mime_type\": \"text/html; charset=utf-8\",\n                    \"url\": \"http://www.gutenberg.org/files/42302/42302-h/42302-h.htm\"\n                },\n                {\n                    \"mime_type\": \"application/x-mobipocket-ebook\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/42302.kindle.images\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=utf-8\",\n                    \"url\": \"http://www.gutenberg.org/files/42302/42302-0.txt\"\n                }\n            ]\n        },\n        {\n            \"id\": 18203,\n            \"title\": \"Die prosa van die twede Afrikaanse beweging\",\n            \"download_count\": 44,\n            \"media_type\": \"Text\",\n            \"authors\": [\n                {\n                    \"name\": \"Schoonees, P. C. (Pieter Cornelis)\",\n                    \"birth_year\": 1891,\n                    \"death_year\": 1970\n                }\n            ],\n            \"bookshelves\": [\n                {\n                    \"name\": \"South Africa\"\n                }\n            ],\n            \"languages\": [\n                {\n                    \"code\": \"af\"\n                }\n            ],\n            \"subjects\": [\n                {\n                    \"name\": \"Afrikaans literature -- History and criticism\"\n                },\n                {\n                    \"name\": \"Afrikaans prose literature -- History and criticism\"\n                }\n            ],\n            \"formats\": [\n                {\n                    \"mime_type\": \"text/html; charset=iso-8859-1\",\n                    \"url\": \"http://www.gutenberg.org/files/18203/18203-h.zip\"\n                },\n                {\n                    \"mime_type\": \"text/plain\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/18203.txt.utf-8\"\n                },\n                {\n                    \"mime_type\": \"application/epub+zip\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/18203.epub.noimages\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=iso-8859-1\",\n                    \"url\": \"http://www.gutenberg.org/files/18203/18203-8.txt\"\n                },\n                {\n                    \"mime_type\": \"application/rdf+xml\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/18203.rdf\"\n                },\n                {\n                    \"mime_type\": \"application/x-mobipocket-ebook\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/18203.kindle.noimages\"\n                }\n            ]\n        },\n        {\n            \"id\": 19729,\n            \"title\": \"Oom Gert Vertel en Ander Gedigte\",\n            \"download_count\": 29,\n            \"media_type\": \"Text\",\n            \"authors\": [\n                {\n                    \"name\": \"Leipoldt, C. Louis (Christiaan Louis)\",\n                    \"birth_year\": 1880,\n                    \"death_year\": 1947\n                }\n            ],\n            \"bookshelves\": [\n                {\n                    \"name\": \"South Africa\"\n                }\n            ],\n            \"languages\": [\n                {\n                    \"code\": \"af\"\n                }\n            ],\n            \"subjects\": [\n                {\n                    \"name\": \"Poetry\"\n                }\n            ],\n            \"formats\": [\n                {\n                    \"mime_type\": \"text/html; charset=iso-8859-1\",\n                    \"url\": \"http://www.gutenberg.org/files/19729/19729-h/19729-h.htm\"\n                },\n                {\n                    \"mime_type\": \"image/jpeg\",\n                    \"url\": \"http://www.gutenberg.org/cache/epub/19729/pg19729.cover.small.jpg\"\n                },\n                {\n                    \"mime_type\": \"application/epub+zip\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/19729.epub.noimages\"\n                },\n                {\n                    \"mime_type\": \"application/zip\",\n                    \"url\": \"http://www.gutenberg.org/files/19729/19729-h.zip\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=iso-8859-1\",\n                    \"url\": \"http://www.gutenberg.org/files/19729/19729-8.zip\"\n                },\n                {\n                    \"mime_type\": \"application/rdf+xml\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/19729.rdf\"\n                },\n                {\n                    \"mime_type\": \"application/x-mobipocket-ebook\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/19729.kindle.images\"\n                },\n                {\n                    \"mime_type\": \"text/plain\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/19729.txt.utf-8\"\n                }\n            ]\n        },\n        {\n            \"id\": 16543,\n            \"title\": \"Trekkerswee: Met tekeninge van J.H. Pierneef\",\n            \"download_count\": 26,\n            \"media_type\": \"Text\",\n            \"authors\": [\n                {\n                    \"name\": \"Totius\",\n                    \"birth_year\": 1877,\n                    \"death_year\": 1953\n                }\n            ],\n            \"bookshelves\": [\n                {\n                    \"name\": \"South Africa\"\n                }\n            ],\n            \"languages\": [\n                {\n                    \"code\": \"af\"\n                }\n            ],\n            \"subjects\": [\n                {\n                    \"name\": \"Afrikaans poetry\"\n                }\n            ],\n            \"formats\": [\n                {\n                    \"mime_type\": \"text/html; charset=iso-8859-1\",\n                    \"url\": \"http://www.gutenberg.org/files/16543/16543-h/16543-h.htm\"\n                },\n                {\n                    \"mime_type\": \"application/epub+zip\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/16543.epub.noimages\"\n                },\n                {\n                    \"mime_type\": \"application/zip\",\n                    \"url\": \"http://www.gutenberg.org/files/16543/16543-8.zip\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=iso-8859-1\",\n                    \"url\": \"http://www.gutenberg.org/files/16543/16543-8.txt\"\n                },\n                {\n                    \"mime_type\": \"application/rdf+xml\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/16543.rdf\"\n                },\n                {\n                    \"mime_type\": \"audio/mpeg\",\n                    \"url\": \"http://www.gutenberg.org/files/16543/16543-m/16543-m-029.mp3\"\n                },\n                {\n                    \"mime_type\": \"application/x-mobipocket-ebook\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/16543.kindle.noimages\"\n                },\n                {\n                    \"mime_type\": \"text/plain\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/16543.txt.utf-8\"\n                }\n            ]\n        }\n    ]\n}"
+				},
+				{
+					"name": "Filter by author or title",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/books/?page=1&title=pride and prejudice&author=Austen, Jane",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"books",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "title",
+									"value": "pride and prejudice"
+								},
+								{
+									"key": "gutenberg_id",
+									"value": "1342",
+									"disabled": true
+								},
+								{
+									"key": "languages",
+									"value": "fa,af",
+									"disabled": true
+								},
+								{
+									"key": "topic",
+									"value": "fiction, Harvard",
+									"disabled": true
+								},
+								{
+									"key": "author",
+									"value": "Austen, Jane"
+								},
+								{
+									"key": "mime_type",
+									"value": "text/html; charset=utf-8",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 19 Mar 2024 01:53:36 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.11.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept, Cookie"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "6352"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"count\": 6,\n    \"next\": \"http://127.0.0.1:8000/api/books/?author=Austen%2C+Jane&page=2&title=pride+and+prejudice\",\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": 1342,\n            \"title\": \"Pride and Prejudice\",\n            \"download_count\": 44776,\n            \"media_type\": \"Text\",\n            \"authors\": [\n                {\n                    \"name\": \"Austen, Jane\",\n                    \"birth_year\": 1775,\n                    \"death_year\": 1817\n                }\n            ],\n            \"bookshelves\": [\n                {\n                    \"name\": \"Best Books Ever Listings\"\n                },\n                {\n                    \"name\": \"Harvard Classics\"\n                }\n            ],\n            \"languages\": [\n                {\n                    \"code\": \"en\"\n                }\n            ],\n            \"subjects\": [\n                {\n                    \"name\": \"Domestic fiction\"\n                },\n                {\n                    \"name\": \"Love stories\"\n                },\n                {\n                    \"name\": \"Young women -- Fiction\"\n                },\n                {\n                    \"name\": \"England -- Fiction\"\n                },\n                {\n                    \"name\": \"Sisters -- Fiction\"\n                },\n                {\n                    \"name\": \"Social classes -- Fiction\"\n                },\n                {\n                    \"name\": \"Courtship -- Fiction\"\n                }\n            ],\n            \"formats\": [\n                {\n                    \"mime_type\": \"text/html; charset=utf-8\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-h.zip\"\n                },\n                {\n                    \"mime_type\": \"application/epub+zip\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.epub.images\"\n                },\n                {\n                    \"mime_type\": \"application/zip\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-0.zip\"\n                },\n                {\n                    \"mime_type\": \"application/rdf+xml\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.rdf\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=utf-8\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-0.txt\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=us-ascii\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342.zip\"\n                },\n                {\n                    \"mime_type\": \"application/pdf\",\n                    \"url\": \"http://www.gutenberg.org/files/1342/1342-pdf.zip\"\n                },\n                {\n                    \"mime_type\": \"application/x-mobipocket-ebook\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/1342.kindle.images\"\n                }\n            ]\n        },\n        {\n            \"id\": 42671,\n            \"title\": \"Pride and Prejudice\",\n            \"download_count\": 793,\n            \"media_type\": \"Text\",\n            \"authors\": [\n                {\n                    \"name\": \"Austen, Jane\",\n                    \"birth_year\": 1775,\n                    \"death_year\": 1817\n                }\n            ],\n            \"bookshelves\": [\n                {\n                    \"name\": \"Best Books Ever Listings\"\n                }\n            ],\n            \"languages\": [\n                {\n                    \"code\": \"en\"\n                }\n            ],\n            \"subjects\": [\n                {\n                    \"name\": \"Domestic fiction\"\n                },\n                {\n                    \"name\": \"Love stories\"\n                },\n                {\n                    \"name\": \"Young women -- Fiction\"\n                },\n                {\n                    \"name\": \"England -- Fiction\"\n                },\n                {\n                    \"name\": \"Sisters -- Fiction\"\n                },\n                {\n                    \"name\": \"Social classes -- Fiction\"\n                },\n                {\n                    \"name\": \"Courtship -- Fiction\"\n                }\n            ],\n            \"formats\": [\n                {\n                    \"mime_type\": \"application/rdf+xml\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/42671.rdf\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=us-ascii\",\n                    \"url\": \"http://www.gutenberg.org/files/42671/42671.zip\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=iso-8859-1\",\n                    \"url\": \"http://www.gutenberg.org/files/42671/42671-8.txt\"\n                },\n                {\n                    \"mime_type\": \"application/epub+zip\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/42671.epub.images\"\n                },\n                {\n                    \"mime_type\": \"application/zip\",\n                    \"url\": \"http://www.gutenberg.org/files/42671/42671-h.zip\"\n                },\n                {\n                    \"mime_type\": \"text/plain\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/42671.txt.utf-8\"\n                },\n                {\n                    \"mime_type\": \"application/x-mobipocket-ebook\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/42671.kindle.images\"\n                },\n                {\n                    \"mime_type\": \"text/html\",\n                    \"url\": \"http://www.gutenberg.org/files/42671/42671-h/42671-h.htm\"\n                }\n            ]\n        },\n        {\n            \"id\": 20686,\n            \"title\": \"Pride and Prejudice\",\n            \"download_count\": 277,\n            \"media_type\": \"Sound\",\n            \"authors\": [\n                {\n                    \"name\": \"Austen, Jane\",\n                    \"birth_year\": 1775,\n                    \"death_year\": 1817\n                }\n            ],\n            \"bookshelves\": [\n                {\n                    \"name\": \"Best Books Ever Listings\"\n                },\n                {\n                    \"name\": \"Harvard Classics\"\n                }\n            ],\n            \"languages\": [\n                {\n                    \"code\": \"en\"\n                }\n            ],\n            \"subjects\": [\n                {\n                    \"name\": \"Domestic fiction\"\n                },\n                {\n                    \"name\": \"Love stories\"\n                },\n                {\n                    \"name\": \"Young women -- Fiction\"\n                },\n                {\n                    \"name\": \"England -- Fiction\"\n                },\n                {\n                    \"name\": \"Sisters -- Fiction\"\n                },\n                {\n                    \"name\": \"Social classes -- Fiction\"\n                },\n                {\n                    \"name\": \"Courtship -- Fiction\"\n                }\n            ],\n            \"formats\": [\n                {\n                    \"mime_type\": \"text/plain\",\n                    \"url\": \"http://www.gutenberg.org/files/20686/20686-readme.txt\"\n                },\n                {\n                    \"mime_type\": \"application/zip\",\n                    \"url\": \"http://www.gutenberg.org/files/20686/20686-m4b.zip\"\n                },\n                {\n                    \"mime_type\": \"audio/mpeg\",\n                    \"url\": \"http://www.gutenberg.org/files/20686/mp3/20686-30.mp3\"\n                },\n                {\n                    \"mime_type\": \"application/rdf+xml\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/20686.rdf\"\n                },\n                {\n                    \"mime_type\": \"audio/mp4\",\n                    \"url\": \"http://www.gutenberg.org/files/20686/m4b/20686-16.m4b\"\n                },\n                {\n                    \"mime_type\": \"audio/ogg\",\n                    \"url\": \"http://www.gutenberg.org/files/20686/ogg/20686-17.ogg\"\n                },\n                {\n                    \"mime_type\": \"text/html\",\n                    \"url\": \"http://www.gutenberg.org/files/20686/20686-index.html\"\n                }\n            ]\n        },\n        {\n            \"id\": 20687,\n            \"title\": \"Pride and Prejudice\",\n            \"download_count\": 206,\n            \"media_type\": \"Sound\",\n            \"authors\": [\n                {\n                    \"name\": \"Austen, Jane\",\n                    \"birth_year\": 1775,\n                    \"death_year\": 1817\n                }\n            ],\n            \"bookshelves\": [\n                {\n                    \"name\": \"Best Books Ever Listings\"\n                },\n                {\n                    \"name\": \"Harvard Classics\"\n                }\n            ],\n            \"languages\": [\n                {\n                    \"code\": \"en\"\n                }\n            ],\n            \"subjects\": [\n                {\n                    \"name\": \"Domestic fiction\"\n                },\n                {\n                    \"name\": \"Love stories\"\n                },\n                {\n                    \"name\": \"Young women -- Fiction\"\n                },\n                {\n                    \"name\": \"England -- Fiction\"\n                },\n                {\n                    \"name\": \"Sisters -- Fiction\"\n                },\n                {\n                    \"name\": \"Social classes -- Fiction\"\n                },\n                {\n                    \"name\": \"Courtship -- Fiction\"\n                }\n            ],\n            \"formats\": [\n                {\n                    \"mime_type\": \"text/plain\",\n                    \"url\": \"http://www.gutenberg.org/files/20687/20687-readme.txt\"\n                },\n                {\n                    \"mime_type\": \"application/zip\",\n                    \"url\": \"http://www.gutenberg.org/files/20687/20687-spx.zip\"\n                },\n                {\n                    \"mime_type\": \"audio/mpeg\",\n                    \"url\": \"http://www.gutenberg.org/files/20687/mp3/20687-27.mp3\"\n                },\n                {\n                    \"mime_type\": \"application/rdf+xml\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/20687.rdf\"\n                },\n                {\n                    \"mime_type\": \"audio/mp4\",\n                    \"url\": \"http://www.gutenberg.org/files/20687/m4b/20687-11.m4b\"\n                },\n                {\n                    \"mime_type\": \"audio/ogg\",\n                    \"url\": \"http://www.gutenberg.org/files/20687/ogg/20687-07.ogg\"\n                },\n                {\n                    \"mime_type\": \"text/html\",\n                    \"url\": \"http://www.gutenberg.org/files/20687/20687-index.html\"\n                }\n            ]\n        },\n        {\n            \"id\": 37431,\n            \"title\": \"Pride and Prejudice, a play founded on Jane Austen's novel\",\n            \"download_count\": 185,\n            \"media_type\": \"Text\",\n            \"authors\": [\n                {\n                    \"name\": \"Austen, Jane\",\n                    \"birth_year\": 1775,\n                    \"death_year\": 1817\n                },\n                {\n                    \"name\": \"MacKaye, Steele, Mrs.\",\n                    \"birth_year\": 1845,\n                    \"death_year\": 1924\n                }\n            ],\n            \"bookshelves\": [],\n            \"languages\": [\n                {\n                    \"code\": \"en\"\n                }\n            ],\n            \"subjects\": [\n                {\n                    \"name\": \"Fairy tales -- United States\"\n                },\n                {\n                    \"name\": \"England -- Drama\"\n                },\n                {\n                    \"name\": \"Courtship -- Drama\"\n                },\n                {\n                    \"name\": \"Social classes -- Drama\"\n                },\n                {\n                    \"name\": \"Young women -- Drama\"\n                },\n                {\n                    \"name\": \"Sisters -- Drama\"\n                },\n                {\n                    \"name\": \"Domestic drama\"\n                },\n                {\n                    \"name\": \"Bennet, Elizabeth (Fictitious character) -- Drama\"\n                }\n            ],\n            \"formats\": [\n                {\n                    \"mime_type\": \"text/html; charset=iso-8859-1\",\n                    \"url\": \"http://www.gutenberg.org/files/37431/37431-h.zip\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=us-ascii\",\n                    \"url\": \"http://www.gutenberg.org/files/37431/37431.txt\"\n                },\n                {\n                    \"mime_type\": \"application/epub+zip\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/37431.epub.images\"\n                },\n                {\n                    \"mime_type\": \"application/zip\",\n                    \"url\": \"http://www.gutenberg.org/files/37431/37431.zip\"\n                },\n                {\n                    \"mime_type\": \"text/plain\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/37431.txt.utf-8\"\n                },\n                {\n                    \"mime_type\": \"application/rdf+xml\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/37431.rdf\"\n                },\n                {\n                    \"mime_type\": \"text/plain; charset=iso-8859-1\",\n                    \"url\": \"http://www.gutenberg.org/files/37431/37431-8.zip\"\n                },\n                {\n                    \"mime_type\": \"application/x-mobipocket-ebook\",\n                    \"url\": \"http://www.gutenberg.org/ebooks/37431.kindle.images\"\n                },\n                {\n                    \"mime_type\": \"image/jpeg\",\n                    \"url\": \"http://www.gutenberg.org/cache/epub/37431/pg37431.cover.small.jpg\"\n                }\n            ]\n        }\n    ]\n}"
+				}
+			]
+		}
+	]
+}
