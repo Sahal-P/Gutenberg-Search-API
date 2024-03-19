@@ -28,20 +28,18 @@ class FormatSerializer(serializers.ModelSerializer):
         
 class BooksSerializer(serializers.ModelSerializer):
     """
+    Serializer for the Book model.
 
-    Attributes:
-        id (int): The unique identifier of the product.
-        name (str): The name of the product.
-        sub_category (int): The ID of the subcategory to which the product belongs.
-        picture (str): The URL of the product picture.
+    This serializer is used to serialize Book instances into JSON representation.
     """
+    id = serializers.IntegerField(source='gutenberg_id', read_only=True)
     authors = AuthorSerializer(many=True, read_only=True)
     bookshelves = BookshelfSerializer(many=True, read_only=True)
     languages = LanguageSerializer(many=True, read_only=True)
     subjects = SubjectSerializer(many=True, read_only=True)
-    formats = FormatSerializer(many=True, read_only=True)
+    formats = FormatSerializer(source='format_set', many=True)
+
 
     class Meta:
         model = Book
-        fields = ['title', 'download_count', 'gutenberg_id', 'media_type', 'authors', 'bookshelves', 'languages', 'subjects', 'formats']
-
+        fields = ['id' ,'title', 'download_count', 'media_type', 'authors', 'bookshelves', 'languages', 'subjects', 'formats']
