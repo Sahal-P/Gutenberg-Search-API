@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status, generics, views
+from rest_framework import viewsets, status, generics, views, exceptions
 from rest_framework.pagination import PageNumberPagination
 from django.db.models import Count, Q
 from django.core.paginator import Paginator
@@ -7,6 +7,8 @@ from rest_framework.request import Request
 from .models import Book
 from .serializers import BooksSerializer
 from django.shortcuts import get_object_or_404
+from django.core.exceptions import ObjectDoesNotExist
+
 
 def parse_comma_separated_param(param_string):
     """
@@ -47,9 +49,14 @@ class BooksAPIView(views.APIView):
         queryset = Book.objects.prefetch_related(
             "authors", "bookshelves", "languages", "subjects"
         )
-        if params['gutenberg_id']:
-            book = get_object_or_404(Book, gutenberg_id=params["gutenberg_id"])
-            queryset = queryset.filter(pk=book.pk)
+        if params.get('gutenberg_id'):
+            try:
+                book = get_object_or_404(Book, gutenberg_id=params["gutenberg_id"])
+                queryset = queryset.filter(pk=book.pk)
+            except ObjectDoesNotExist:
+                raise exceptions.APIException('Object does not exists with this gutenberg id')
+            except Exception as e:
+                raise exceptions.APIException(f'Error Ocuured: {e}')
         else:
             if params['title']:
                 filter_args["title__icontains"] = params['title']
@@ -104,8 +111,13 @@ class BooksAPIView(views.APIView):
         Returns:
             Response: A paginated response containing the serialized queryset data.
         """
-        paginator = self.pagination_class()
-        page = paginator.paginate_queryset(queryset, request)
-        if page is not None:
-            serializer = BooksSerializer(page, many=True)
-            return paginator.get_paginated_response(serializer.data)
+        try:
+            paginator = self.pagination_class()
+            page = paginator.paginate_queryset(queryset, request)
+            if page is not None:
+                serializer = BooksSerializer(page, many=True)
+                return paginator.get_paginated_response(serializer.data)
+        except Exception as e:
+            raise exceptions.APIException(f"Pagination error: {e}")
+        
+        raise exceptions.NotFound("No results found for the given query parameters.")
