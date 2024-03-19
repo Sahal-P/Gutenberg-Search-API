@@ -41,6 +41,5 @@ python manage.py runserver
 docker-compose up --build
 ```
 
-
 ## Where to find Me
 [Linkedin](https://www.linkedin.com/in/sahal-p-ba81a2260/)
